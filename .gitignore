@@ -1,0 +1,6 @@
+.venv/
+.vscode/
+*.png
+*.mp4
+*.xml
+*.pyc
