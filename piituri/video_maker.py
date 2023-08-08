@@ -5,7 +5,7 @@ from piituri.settings import Settings
 
 
 def make_video(route_points, tail, map_img, settings: Settings, i: int):
-    output_name = f"{output_name}_{i}.mp4"
+    output_name = f"{settings.output_name}_{i}.mp4"
     print(f"writing video {output_name}", flush=True)
     video = cv2.VideoWriter(
         output_name, cv2.VideoWriter_fourcc(*'mp4v'), settings.fps, (settings.width, settings.height), isColor=True)
