@@ -20,6 +20,8 @@ def make_video(route_points, tail, map_img, settings: Settings, i: int):
                       settings.tail_color, settings.tail_size)
         cv2.circle(bg, (x, y), settings.dot_size,
                    settings.dot_color, thickness=-1)
+        cv2.circle(bg, (x, y), settings.dot_size,
+                   (0, 0, 0), thickness=1)
         video.write(bg)
     video.release()
     print(f"{output_name} DONE", flush=True)

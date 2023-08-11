@@ -3,8 +3,7 @@ from itertools import pairwise
 from multiprocessing import Pool
 import cv2
 
-from piituri.tail_maker import make_tail
-
+from .tail_maker import make_tail
 from .image_maker import make_image
 from .video_maker import make_video
 from .settings import Settings
