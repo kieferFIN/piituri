@@ -10,7 +10,7 @@ def make_video(route_points, tail, map_img, settings: Settings, i: int):
     video = cv2.VideoWriter(
         output_name, cv2.VideoWriter_fourcc(*'mp4v'), settings.fps, (settings.width, settings.height), isColor=True)
     for i, p in enumerate(route_points):
-        if i % settings.fps == 0:
+        if i % settings.relative_fps == 0:
             t = next(tail)
             tail_points = np.array(t)
         bg = map_img.copy()

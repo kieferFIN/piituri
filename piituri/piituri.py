@@ -14,10 +14,10 @@ from .route_points_creator import create_route_points
 def task(route, map_img, settings: Settings, i, limits):
     start = limits[0]
     end = limits[1]
-    fps = settings.fps
     rot = create_transformation(
         route[start:end+1], settings.width, settings.height)
-    route_points = create_route_points(start, end, route, rot, fps)
+    route_points = create_route_points(
+        start, end, route, rot, settings.relative_fps)
     transformed_map = cv2.warpAffine(
         map_img, rot, (settings.width, settings.height))
     if settings.make_images:

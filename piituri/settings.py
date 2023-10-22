@@ -1,7 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
+import tomli
 
 
-@dataclass
+@dataclass(frozen=True)
 class Settings:
     map_file_name: str
     route_file_name: str
@@ -9,6 +10,7 @@ class Settings:
     splits: list[int]
     make_images: bool
     fps: int = 60
+    speed_up: float = 1.0
     width: int = 320
     height: int = 720
     dot_color: list[int] = field(default_factory=lambda: [255, 0, 0])
@@ -17,25 +19,37 @@ class Settings:
     tail_size: int = 4
     tail_length: int = 60
 
+    @property
+    def relative_fps(self) -> int:
+        return round(self.fps / self.speed_up)
+
 
 def _rgb_to_bgr(rgb) -> tuple[int, int, int]:
     return (rgb[2], rgb[1], rgb[0])
 
 
 def parse_args(args) -> Settings:
-    settings = Settings(args.map_file_name,
-                        args.route_file_name, args.output_name, args.splits, args.image)
+    file_params = {}
     if args.settings_file is not None:
-        _read_settings(args.settings_file)
-    if settings.make_images:
-        settings.fps = 1
+        file_params = _read_settings(args.settings_file)
+    print(file_params)
+    if args.image:
+        file_params['fps'] = 1
+        file_params['speed_up'] = 1.0
+    settings = Settings(args.map_file_name,
+                        args.route_file_name,
+                        args.output_name,
+                        args.splits,
+                        args.image, **file_params)
 
-    settings.dot_color = _rgb_to_bgr(settings.dot_color)
-    settings.tail_color = _rgb_to_bgr(settings.tail_color)
+    settings = replace(settings,
+                       dot_color=_rgb_to_bgr(settings.dot_color),
+                       tail_color=_rgb_to_bgr(settings.tail_color))
 
     return settings
 
 
 def _read_settings(file_name):
     print(f"Settings file: {file_name}")
-    print("Read settings from file is not implemented, using default values")
+    with open(file_name, 'rb') as f:
+        return tomli.load(f)
