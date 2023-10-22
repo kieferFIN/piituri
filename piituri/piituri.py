@@ -1,5 +1,4 @@
-from functools import partial
-from itertools import pairwise
+from itertools import pairwise, repeat, count
 from multiprocessing import Pool
 import cv2
 
@@ -28,19 +27,22 @@ def task(route, map_img, settings: Settings, i, limits):
                    settings.tail_length, rot), transformed_map, settings, i)
 
 
+def _get_splits(s: Settings, splits):
+    if len(s.splits) > 0:
+        return s.splits, [(splits[i], splits[i+1]) for i in s.splits]
+    else:
+        return count(0), pairwise(splits)
+
+
 def piituri(settings: Settings):
     route, splits = parse_route(settings.route_file_name)
     print(f"splits:{splits}")
-    if len(settings.splits) > 0:
-        split_iter = []
-        for i in settings.splits:
-            split_iter.append((i, (splits[i], splits[i+1])))
-    else:
-        split_iter = enumerate(pairwise(splits))
     map_img = cv2.imread(settings.map_file_name)
 
     with Pool() as pool:
-        _task = partial(task, route, map_img, settings)
-        pool.starmap(_task, split_iter)
+        # _task = partial(task, route, map_img, settings)
+        data_iter = zip(repeat(route), repeat(map_img),
+                        repeat(settings), *_get_splits(settings, splits))
+        pool.starmap(task, data_iter)
         pool.close()
         pool.join()
