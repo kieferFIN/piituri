@@ -32,7 +32,6 @@ def parse_args(args) -> Settings:
     file_params = {}
     if args.settings_file is not None:
         file_params = _read_settings(args.settings_file)
-    print(file_params)
     if args.image:
         file_params['fps'] = 1
         file_params['speed_up'] = 1.0

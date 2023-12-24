@@ -7,7 +7,7 @@ def main():
     parser.add_argument("map_file_name", type=str)
     parser.add_argument("route_file_name", type=str)
     parser.add_argument("output_name", type=str)
-    parser.add_argument("settings_file", nargs="?")
+    parser.add_argument("settings_file", nargs="?", default="settings.toml")
     parser.add_argument("-s", "--splits", nargs='+', type=int, default=[])
     parser.add_argument("-i", "--image", action='store_true')
     args = parser.parse_args()

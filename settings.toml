@@ -1,9 +1,9 @@
 fps = 60
-speed_up = 2.0
+speed_up = 1.0
 width = 320
 height = 720
-dot_color = [255, 0, 0]
+dot_color = [255, 200, 0]
 dot_size = 10
-tail_color = [0, 0, 255]
+tail_color = [0, 200, 255]
 tail_size = 4
 tail_length = 60
