@@ -15,7 +15,7 @@ def parse_route(file_name: str):
             splits.append(round(float(p.attrib["elapsedTimeFromStart"])))
         return splits
 
-    splits = reduce(f, seq, [])
-    splits.append(len(seq)-1)
+    intervalls: list[int] = reduce(f, seq, [])
+    intervalls.append(len(seq)-1)
 
-    return points, splits
+    return points, intervalls

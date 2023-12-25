@@ -10,6 +10,7 @@ def main():
     parser.add_argument("settings_file", nargs="?", default="settings.toml")
     parser.add_argument("-s", "--splits", nargs='+', type=int, default=[])
     parser.add_argument("-i", "--image", action='store_true')
+    parser.add_argument("-f", "--force", action='store_true')
     args = parser.parse_args()
     settings = piituri.parse_args(args)
     piituri.piituri(settings)

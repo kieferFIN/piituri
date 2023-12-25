@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field, replace
-import tomli
+import tomllib
 
 
 @dataclass(frozen=True)
@@ -9,13 +9,16 @@ class Settings:
     output_name: str
     splits: list[int]
     make_images: bool
+    force_new_parameters: bool
     fps: int = 60
     speed_up: float = 1.0
     width: int = 320
     height: int = 720
-    dot_color: list[int] = field(default_factory=lambda: [255, 0, 0])
+    dot_color: tuple[int, int, int] = field(
+        default_factory=lambda: (255, 0, 0))
     dot_size: int = 10
-    tail_color: list[int] = field(default_factory=lambda: [0, 0, 255])
+    tail_color: tuple[int, int, int] = field(
+        default_factory=lambda: (0, 0, 255))
     tail_size: int = 4
     tail_length: int = 60
 
@@ -24,7 +27,7 @@ class Settings:
         return round(self.fps / self.speed_up)
 
 
-def _rgb_to_bgr(rgb) -> tuple[int, int, int]:
+def _rgb_to_bgr(rgb: tuple[int, int, int]) -> tuple[int, int, int]:
     return (rgb[2], rgb[1], rgb[0])
 
 
@@ -39,7 +42,9 @@ def parse_args(args) -> Settings:
                         args.route_file_name,
                         args.output_name,
                         args.splits,
-                        args.image, **file_params)
+                        args.image,
+                        args.force,
+                        **file_params)
 
     settings = replace(settings,
                        dot_color=_rgb_to_bgr(settings.dot_color),
@@ -51,4 +56,4 @@ def parse_args(args) -> Settings:
 def _read_settings(file_name):
     print(f"Settings file: {file_name}")
     with open(file_name, 'rb') as f:
-        return tomli.load(f)
+        return tomllib.load(f)

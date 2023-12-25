@@ -1,10 +1,10 @@
 import cv2
 import numpy as np
+from cv2.typing import Point2f, MatLike
 
 
-def create_transformation(points, width: int, height: int):
+def calculate_rot_params(points, width: int, height: int):
     is_landscape: bool = width > height
-
     center_point, (dim_x, dim_y), angle = cv2.minAreaRect(
         points)
     start_point = points[0]
@@ -23,7 +23,10 @@ def create_transformation(points, width: int, height: int):
     dim_x += 100
     dim_y += 200
     scale = min(width/dim_x, height/dim_y)
-    print(center_point, angle, scale)
+    return center_point, angle, scale
+
+
+def create_transformation(center_point: Point2f, angle: float, scale: float, width: int, height: int) -> MatLike:
     rot = cv2.getRotationMatrix2D(center_point, angle, scale)
     rot[0, 2] -= (center_point[0] - width*0.5)
     rot[1, 2] -= (center_point[1] - height*0.5)
