@@ -2,7 +2,7 @@ from itertools import pairwise, repeat, count
 from multiprocessing import Pool
 import cv2
 from os.path import isfile
-from .params import Params, create_params_file_name, read_params, write_params
+from .params import Params, RotationParams, create_params_file_name, read_params, write_params
 from .tail_maker import make_tail
 from .image_maker import make_image
 from .video_maker import make_video
@@ -12,14 +12,14 @@ from .transformation import calculate_rot_params, create_transformation
 from .route_points_creator import create_route_points
 
 
-def task(route, map_img, settings: Settings, i, limits, rot_params):
+def task(route, map_img, settings: Settings, i, limits, rot_params: RotationParams):
     start = limits[0]
     end = limits[1]
     if rot_params is None:
         rot_params = calculate_rot_params(
             route[start:end+1], settings.width, settings.height)
     rot = create_transformation(
-        *rot_params, settings.width, settings.height)
+        rot_params, settings.width, settings.height)
     route_points = create_route_points(
         start, end, route, rot, settings.relative_fps)
     transformed_map = cv2.warpAffine(
