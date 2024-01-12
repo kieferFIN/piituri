@@ -12,7 +12,7 @@ from .transformation import calculate_rot_params, create_transformation
 from .route_points_creator import create_route_points
 
 
-def task(route, map_img, settings: Settings, i, limits, rot_params: RotationParams):
+def _task(route, map_img, settings: Settings, i, limits, rot_params: RotationParams):
     start = limits[0]
     end = limits[1]
     if rot_params is None:
@@ -59,7 +59,7 @@ def piituri(settings: Settings):
     with Pool() as pool:
         data_iter = zip(repeat(route), repeat(map_img),
                         repeat(settings), *_get_splits(settings, params))
-        rot_params = pool.starmap(task, data_iter)
+        rot_params = pool.starmap(_task, data_iter)
         pool.close()
         pool.join()
 
