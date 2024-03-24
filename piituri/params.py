@@ -3,6 +3,7 @@ from piituri.settings import Settings
 from cv2.typing import Point2f
 import json
 import dacite
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -18,17 +19,17 @@ class Params:
     rotation_params: list[RotationParams]
 
 
-def create_params_file_name(s: Settings) -> str:
-    return f"{s.output_name}_{s.map_file_name}_{s.route_file_name}.json"
+def create_params_file_name(s: Settings) -> Path:
+    return Path(f"{s.output_name}/{s.map_file_name}_{s.route_file_name}.json")
 
 
-def write_params(params: Params, file_name: str):
-    with open(file_name, "w") as f:
+def write_params(params: Params, file_name: Path):
+    with file_name.open("w") as f:
         json.dump(asdict(params), f,  indent=2)
 
 
-def read_params(file_name: str):
-    with open(file_name, "r") as f:
+def read_params(file_name: Path):
+    with file_name.open("r") as f:
         params = json.load(f)
     intervalls_size = len(params['intervalls'])
     rot_params_size = len(params['rotation_params'])

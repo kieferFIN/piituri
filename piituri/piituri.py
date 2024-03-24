@@ -1,7 +1,7 @@
 from itertools import pairwise, repeat, count
 from multiprocessing import Pool
+from pathlib import Path
 import cv2
-from os.path import isfile
 from .params import Params, RotationParams, create_params_file_name, read_params, write_params
 from .tail_maker import make_tail
 from .image_maker import make_image
@@ -48,13 +48,17 @@ def _get_splits(s: Settings, params: Params):
 
 def piituri(settings: Settings):
     params_file_name = create_params_file_name(settings)
-    params = Params(None, None) if settings.force_new_parameters or not isfile(
-        params_file_name) else read_params(params_file_name)
+    params = Params(None, None) if settings.force_new_parameters or not params_file_name.exists(
+    ) else read_params(params_file_name)
 
     route, intervalls = parse_route(settings.route_file_name)
     if params.intervalls is None:
         params = Params(intervalls, params.rotation_params)
     map_img = cv2.imread(settings.map_file_name)
+
+    path = Path(settings.output_name).absolute()
+    if not path.is_dir():
+        path.mkdir()
 
     with Pool() as pool:
         data_iter = zip(repeat(route), repeat(map_img),

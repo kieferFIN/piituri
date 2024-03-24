@@ -1,3 +1,4 @@
+from pathlib import Path
 import cv2
 import numpy as np
 
@@ -5,10 +6,10 @@ from piituri.settings import Settings
 
 
 def make_video(route_points, tail, map_img, settings: Settings, i: int):
-    output_name = f"{settings.output_name}_{i}.mp4"
-    print(f"writing video {output_name}", flush=True)
+    output_name = Path(f"{settings.output_name}/{i}.mp4").absolute()
+    print(f"writing video {output_name.name}", flush=True)
     video = cv2.VideoWriter(
-        output_name, cv2.VideoWriter_fourcc(*'mp4v'), settings.fps, (settings.width, settings.height), isColor=True)
+        str(output_name), cv2.VideoWriter_fourcc(*'mp4v'), settings.fps, (settings.width, settings.height), isColor=True)
     for i, p in enumerate(route_points):
         if i % settings.relative_fps == 0:
             t = next(tail)
@@ -24,4 +25,4 @@ def make_video(route_points, tail, map_img, settings: Settings, i: int):
                    (0, 0, 0), thickness=1)
         video.write(bg)
     video.release()
-    print(f"{output_name} DONE", flush=True)
+    print(f"{output_name.name} DONE", flush=True)
