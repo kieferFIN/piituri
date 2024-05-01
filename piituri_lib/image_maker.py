@@ -1,6 +1,6 @@
 import cv2
 from os import path
-from piituri.settings import Settings
+from piituri_lib.settings import Settings
 from pathlib import Path
 
 

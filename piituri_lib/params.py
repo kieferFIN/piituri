@@ -1,5 +1,5 @@
 from dataclasses import asdict, dataclass
-from piituri.settings import Settings
+from piituri_lib.settings import Settings
 from cv2.typing import Point2f
 import json
 import dacite

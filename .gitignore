@@ -6,3 +6,6 @@
 *.pyc
 *.code-workspace
 *.json
+*.spec
+build/
+dist/

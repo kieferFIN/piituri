@@ -1,4 +1,4 @@
-fps = 60
+fps = 30
 speed_up = 1.0
 width = 320
 height = 720
@@ -7,3 +7,4 @@ dot_size = 8
 tail_color = [0, 200, 255]
 tail_size = 4
 tail_length = 60
+fourcc = 'mp4v'

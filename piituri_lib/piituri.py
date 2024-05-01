@@ -59,7 +59,6 @@ def piituri(settings: Settings):
     path = Path(settings.output_name).absolute()
     if not path.is_dir():
         path.mkdir()
-
     with Pool() as pool:
         data_iter = zip(repeat(route), repeat(map_img),
                         repeat(settings), *_get_splits(settings, params))

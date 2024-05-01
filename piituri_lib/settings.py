@@ -21,6 +21,7 @@ class Settings:
         default_factory=lambda: (0, 0, 255))
     tail_size: int = 4
     tail_length: int = 60
+    fourcc: str = 'mp4v'
 
     @property
     def relative_fps(self) -> int:

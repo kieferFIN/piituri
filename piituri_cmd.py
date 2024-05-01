@@ -1,5 +1,5 @@
 import argparse
-import piituri
+import piituri_lib
 
 
 def main():
@@ -12,8 +12,8 @@ def main():
     parser.add_argument("-i", "--image", action='store_true')
     parser.add_argument("-f", "--force", action='store_true')
     args = parser.parse_args()
-    settings = piituri.parse_args(args)
-    piituri.piituri(settings)
+    settings = piituri_lib.parse_args(args)
+    piituri_lib.piituri(settings)
 
 
 if __name__ == "__main__":

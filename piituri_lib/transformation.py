@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from cv2.typing import Point2f, MatLike
 
-from piituri.params import RotationParams
+from piituri_lib.params import RotationParams
 
 
 def calculate_rot_params(points, width: int, height: int) -> RotationParams:
