@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field, replace
+from pathlib import Path
 import tomllib
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -54,7 +56,13 @@ def parse_args(args) -> Settings:
     return settings
 
 
-def _read_settings(file_name):
+def _read_settings(file_name: str):
     print(f"Settings file: {file_name}")
-    with open(file_name, 'rb') as f:
-        return tomllib.load(f)
+    file = Path(file_name)
+    if file.exists():
+        with open(file, 'rb') as f:
+            return tomllib.load(f)
+    else:
+        print("Settings file nor found. Default settings in use.")
+        d: dict[str, Any] = {}
+        return d
