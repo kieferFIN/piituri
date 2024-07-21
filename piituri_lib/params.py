@@ -16,7 +16,7 @@ class RotationParams:
 @dataclass(frozen=True)
 class Params:
     intervalls: list[int]
-    rotation_params: list[RotationParams]
+    rotation_params: list[RotationParams] | None
 
 
 def create_params_file_name(s: Settings) -> Path:

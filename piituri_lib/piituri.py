@@ -12,7 +12,7 @@ from .transformation import calculate_rot_params, create_transformation
 from .route_points_creator import create_route_points
 
 
-def _task(route, map_img, settings: Settings, i, limits, rot_params: RotationParams):
+def _task(route, map_img, settings: Settings, i, limits, rot_params: RotationParams | None):
     start = limits[0]
     end = limits[1]
     if rot_params is None:
